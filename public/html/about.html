@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WastEradict</title>
+    <link rel="shortcut icon" href="../images/appLogo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!--Poppins font-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+
+        main{
+            position: relative;
+        }
+        main a{
+            text-decoration: none;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        main a:hover{
+            text-decoration: underline;
+        }
+        .callToAction1{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-inline: 30px;
+            width: 100%;
+            height: 70vh;
+            background: no-repeat center center fixed;
+            background-size: cover;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)), url('../images/destroyMend.jpg');
+        }
+        .callToAction1 p{
+            margin: 30px;
+            font-size: 30px;
+            font-weight: bold;
+            font-style: italic;
+            color: white;
+        }
+        .callToAction1 p span:nth-child(1){
+            color: red;
+        }
+        .callToAction1 p span:nth-child(2){
+            color: lime;
+        }
+        .visuals{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid black;
+            width: 100%;
+            margin-top: 30px;
+            margin-inline: 50px;
+        }
+        .visuals > *{
+            margin: 15px;
+            text-align: center;
+        }
+        .visuals .imgContainer{
+            padding-bottom: 10px;
+            border-radius: 5px;
+            height: auto;
+            box-shadow: 0 3px 8px 1px rgba(0, 0, 0, 0.2);
+        }
+        .visuals .imgContainer img{
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .mission-vision{
+            margin-top: 40px;
+            gap: 7%;
+        }
+        .mission-vision .m_vision{
+            text-align: center;
+            border-radius: 10px;
+            padding-inline: 15px;
+            padding-block: 20px;
+            box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.3);
+        }
+        .whyWastEradict{
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+        }
+        .whyWastEradict h4{
+            display: inline-block;
+        }
+        blockquote{
+            font-style: italic;
+        }
+        #Richard_quote{
+            font-style: italic;
+            float: right;
+            margin-right: 15%;
+            font-weight: 700;
+        }
+        .storyTelling{
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../images/logo.png" alt="Logo" id="logo">
+        <nav>
+            <ul id="nav-links">
+                <li><a href="landing.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+            <div class="menuToggle">
+                <div class="menuToggleIcons">
+                    <span class="material-symbols-outlined menuOpenClose" id="menuIcon">menu</span>
+                    <span class="material-symbols-outlined menuOpenClose" id="closeIcon">close</span>    
+                </div>
+                <div id="menuDropdown" class="menuBar">
+                    <a href="landing.html">Home</a>
+                    <a href="about.html">About us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="resources.html">Resources</a>
+                </div>
+            </div>
+        </nav>
+        <div class="auth-buttons" id="auth-buttons-top">
+            <button id="loginFormBtn" onclick="openLoginForm()">Login</button>
+            <button id="signupFormBtn" onclick="openSignupForm()">Sign Up</button>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="callToAction1">
+            <p>"The future of our planet is in the palm of our hands. We have to choose weather to <span>destroy</span> it or <span>build</span> it but I am not sure if we want to destroy it, because we don't want destroy ourselves."</p>
+        </div>
+        <div class="whyWastEradict">
+            <h2>What is WastEradict</h2>
+            <p>WastEradict is a web based platform that enable communities to effectively manage wastes and take care of the environment as the name itself suggest.</p>
+            <br>
+            <h3>How It Works</h3>
+            <p><h4>Real-Time Notifications:</h4> All users with a WastEradict account receive real-time notifications based on the garbage collectors' schedule in their area. This allows users to prepare their garbage in advance and be ready when the collectors arrive.</p>
+            <br>
+            <p><h4>Easy Disposal:</h4> Users can manage waste disposal with a few clicks. By logging into their accounts and pinning their garbage location on the dashboard map, garbage collectors will see it in real-time.</p>
+            <br>
+            <p><h4>Efficeincy for Garbage Collectors:</h4> With WastEradict, garbage collectors no longer need to follow the traditional door-to-door method to find people with waste to dispose of. This innovation saves them valuable time and energy, which are crucial resources.</p>
+            <br>
+            <p><h4>Community Reporting:</h4> Residents can report instances of irresponsible waste disposal to nearby government offices in charge of the environment, ensuring appropriate actions are taken.</p>
+            <br>
+            <h3>Why WastEradict is Important</h3>
+            <p>WastEradict is incredibly useful for everyone, from individuals to organizations and government bodies. Most importantly, it plays a vital role in helping the environment heal and thrive by making waste management more efficient and community-driven.</p>
+            <br>
+            <blockquote>
+                "The only way forward, if we are going to improve the quality of the environment, is to get everybody involved."
+                 <span id="Richard_quote">- Richard Rogers</span>
+            </blockquote>
+            <br>
+            <p>Click <a href="#">here</a> to get started.</p>
+        </div>
+        <div class="visuals ">
+            <div class="imgContainer">
+                <img src="../images/garbage.jpeg" alt="garbage">
+                <p>Creating awareness on effective waste management and disposal behaviors.</p>
+            </div>
+            <div class="imgContainer">
+                <img src="../images/garbageDisposal.jpg" alt="solidWaste">
+                <p>Careless and irresponsbility of waste disposal which is highly dangerous.</p>
+            </div>
+        </div>
+        <div class="mission-vision row_flex_container">
+            <div class="mission m_vision">
+                <h2>Mission</h2>
+                <p>To empower communities and preserve the environment through effective waste management solutions.</p>
+            </div>
+            <div class="vission m_vision">
+                <h2>Vision</h2>
+                <p>A world where waste is minimized, resources are conserved, and the environment is protected.</p>
+            </div>
+        </div>
+        <div class="storyTelling">
+            <h2>Our Story</h2>
+            <p>At WastEradict, we revolutionize waste management through community and government collaboration. Our mission is to create cleaner, healthier environments and a sustainable future by empowering users to report and address improper waste disposal efficiently. <a href="#">Join us </a>in making a difference, one report at a time.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Since 2024. All rights reserverd</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

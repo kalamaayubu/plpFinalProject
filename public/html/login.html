@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WastEradict</title>
+    <link rel="shortcut icon" href="../images/appLogo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!--Poppins font-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  <!-- Link to Font Awesome CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<style>
+    body{
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--primary-color);
+    }
+    .loginFormContainer{
+        box-shadow: 1px 2px 8px 1px rgba(0, 0, 0, 0.3);
+        height: 90vh;
+        width: 80%;
+        max-width: 450px;
+        border-radius: 5px;
+        background-color: white;
+    }
+    .logoContainer{
+        justify-content: center;
+        align-items: center;
+        padding-top: 40px;
+        width: 100%;
+        height: 100px;
+    }
+    .logoContainer img{
+        width: 15%;
+        height: auto;
+    }
+    #platformName{
+        font-weight: bolder;
+        font-size: 1.9rem;
+    }
+    .loginFormContainer > p{
+        text-align: center;
+    }
+    .loginFormContainer form{
+        margin-top: 20px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+    input{
+        width: 80%;
+        padding: 7px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid gray;
+        font-size: 1.19rem;
+    }
+    form{
+        margin-bottom: 50px;
+        position: relative;
+    }
+    form button{
+        width: 84%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-color: var(--primary-color);
+        border: none;
+        outline: none;
+        padding: 7px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    form button:hover{
+        background-color: rgb(43, 143, 43);
+    }
+    .noAccount{
+        justify-content: center;
+        align-items: center;
+    }
+    .noAccount a{
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+    .noAccount a:hover{
+        text-decoration: underline;
+    }
+    #forgotPassword{
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    #forgotPassword:hover{
+        text-decoration: underline;
+    }
+    /* The password toggle eye icon */
+    form .icon{
+        font-size: 1.4rem;
+        color: black;
+        margin-right: 20px;
+        position: absolute;
+        right: 5%;
+        bottom: 53%;
+        color: green;
+        cursor: pointer;
+        display: none;
+    }
+</style>
+<body>
+    <div class="loginFormContainer">
+        <div class="logoContainer column_flex_container">
+            <img src="../images/appLogo.png" alt="Logo">
+            <p id="platformName">WastEradict</p>
+        </div>
+        <br>
+        <p>Enter your credentials to Login here</p>
+        <form action="" id="loginForm" class="column_flex_container">
+            <input type="text" name="username" id="username" placeholder="Username" required>
+            <input type="password" name="password" id="userPassword" placeholder="Password" required>
+            <i class="fa fa-eye icon"></i>
+            <i class="fa fa-eye-slash icon"></i>
+            <a href="#" id="forgotPassword">Forgot password?</a>
+            <button type="submit">Login</button>
+        </form>
+        <div class="noAccount column_flex_container">
+            <p>Don't have an account?</p>
+            <p><a href="signup.html">Create account</a></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

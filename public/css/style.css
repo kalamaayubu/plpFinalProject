@@ -1,0 +1,238 @@
+/* Some global style */
+:root{
+    --primary-color: green;
+}
+.row_flex_container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.column_flex_container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+a{
+    text-decoration: none;
+}
+/* The end of the global styles */
+
+*{
+    margin: 0;
+    outline: none;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+header {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-inline: 20px;
+    padding-block: 5px;
+    z-index: 100;
+    box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.3);
+}
+header img {
+    margin-block: 10px;
+}
+#logo {
+    width: 200px;
+}
+nav {
+    position: relative;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+}
+nav li {
+    margin: 0 15px;
+}
+nav a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    font-weight: lighter;
+}
+nav a:hover {
+    color: #aaa;
+}
+.menuToggle{
+    display: block;
+    position: relative;
+}
+.menuToggleIcons{
+    display: none;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+}
+.menuToggleIcons .menuOpenClose{
+    position: absolute;
+    margin-bottom: 10px;
+    top: 9px;
+    left: 8px;
+    color: black;
+    font-size: 1.9rem;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+}
+.menuToggleIcons .menuOpenClose:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+}
+#menuDropdown{
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    gap: 20px;
+    right: 0;
+    top: 50px;
+    width: 100vw;
+    height: 70vh;
+    max-width: 300px;
+    padding-top: 30px;
+    background-color: white;
+    box-shadow: 1px 2px 8px 1px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+}
+#menuDropdown a{
+    margin: 0 auto;
+}
+#menuIcon{
+    position: absolute;
+}
+#closeIcon{
+    z-index: 100;
+    display: none;
+}
+#auth-buttons-top {
+    display: flex;
+}
+.auth-buttons button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+.auth-buttons button:hover {
+    background-color: rgb(0, 83, 0);
+}
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 85px;
+    padding: 20px;
+    font-size: 1.2rem;
+}
+.main-content .storyTelling, .visuals,
+.mission-vision, .whyWastEradict{
+    max-width: 1200px;
+}
+main h1, h2, h3{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+footer{
+    position: relative;
+    background-color: rgb(127, 153, 116);
+    color: black;
+    padding: 20px;
+    text-align: center;
+}
+
+/* RESPONSIVE STYLES */
+@media(min-width: 1020px){
+    .menuToggle{
+        display: none;
+    }
+    #menuDropdown{
+        display: none;
+    }
+}
+@media(max-width: 1020px){
+    header{
+        padding-inline: 10px;
+    }
+    nav ul{
+        display: none;
+    }
+    .menuToggle{
+        display: block;
+    }
+    .menuToggleIcons{
+        display: block;
+    }
+}
+@media (max-width: 768px) {
+    nav li {
+        text-align: center;
+    }
+    #auth-buttons-top {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+@media(max-width: 500px){
+    header{
+        padding-inline: 2px;
+    }
+    #logo {
+        width: 150px;
+    }
+    #auth-buttons-top button {
+        padding: 5px;
+    }
+}
+/* Auth buttons at bottom of home section */
+#auth-buttons-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-top: 350px;
+    align-self: center;
+    width: 70%;
+    max-width: 800px;
+}
+.auth-buttons :nth-child(1){
+    background-color: green;
+}
+.auth-buttons :nth-child(2){
+    background-color: transparent;
+    border: 1px solid green;
+    color: green;
+}
+.auth-buttons :nth-child(2):hover{
+    border: none;
+    color: white;
+}
+#auth-buttons-bottom button {
+    padding: 17px 40px;
+    border-radius: 40px;
+    width: 40%;
+    color: white;
+}
