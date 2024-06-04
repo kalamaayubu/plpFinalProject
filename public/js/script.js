@@ -15,28 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeIcon.style.display = 'none';
     }
 
-    // Show the login modal
-    window.showLogin = function() {
-        document.getElementById('login-modal').style.display = 'block';
-    };
-
-    // Show the signup modal
-    window.showSignup = function() {
-        document.getElementById('signup-modal').style.display = 'block';
-    };
-
-    // Close the modal
-    window.closeModal = function(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    };
-
-    // Close modals when clicking outside of them
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-        }
-    };
-
     // MENU BAR FUNCTIONALITY
     const menuIcon = document.getElementById('menuIcon');
     const closeIcon = document.getElementById('closeIcon');
@@ -68,37 +46,42 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Open login form function
-    const openLoginForm = () => {
-        window.location.href = 'login.html';
-    };
+    document.getElementById('loginFormBtn').addEventListener('click', () => {
+        window.location.href = '/login';
+    });
+
     // Open signup form function
-    const openSignupForm = () => {
-        window.location.href = 'signup.html';
-    }
-    document.getElementById('loginFormBtn').addEventListener('click', openLoginForm);
-    document.getElementById('signupFormBtn').addEventListener('click', openSignupForm);
-    
-
-    // // Toggling the password visiblility
-    // const passwordInput = document.getElementById('userPassword');
-    //     passwordInput.addEventListener('input', () => {
-    //         const eyeIcon = document.getElementById('eyeIcon');
-    //         if (passwordInput.value !== '') {
-    //             eyeIcon.style.display = 'block';
-    //         } else{
-    //             eyeIcon.style.display = 'none';
-    //         }
-    //     });
-
-
+    document.getElementById('signupFormBtn').addEventListener('click', () => {
+        window.location.href = '/signup';
+    });
 
     //----------------------------JAVASCRIPT COMMUNICATING WITH THE BACKEND----------------------------------
-    // Handling login form submission
-    // const loginForm = document.getElementById('loginForm');
-    // loginForm.addEventListener('submit', (e) => {
-    //     e.preventDefault();
-        
-        
-    // })
 
-});
+    // Signup functionality
+    const signupForm = document.getElementById('signupForm');
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(signupForm);
+        const username = formData.get('username');
+        const email = formData.get('email');
+        const password = formData.get('password');
+        try {
+            const response = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({ username, email, password })
+            });
+            if (response.ok) {
+                alert('Registration made successful');
+            } else {
+                alert('Registration failed');
+            }
+        } catch (err) {
+            console.error(`An error occured: ${err}`);
+            alert('An error occured. Please try again later.')
+        }
+    });
+
+}); // DOMContentLoaded function
