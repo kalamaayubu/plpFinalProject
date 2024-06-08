@@ -98,16 +98,9 @@
     }
     /* The password toggle eye icon */
     form .icon{
-        font-size: 1.4rem;
-        color: black;
-        margin-right: 20px;
-        position: absolute;
-        right: 5%;
         bottom: 53%;
-        color: green;
-        cursor: pointer;
-        display: none;
     }
+
 </style>
 <body>
     <div class="loginFormContainer">
@@ -120,8 +113,8 @@
         <form action="" id="loginForm" class="column_flex_container">
             <input type="text" name="username" id="username" placeholder="Username" required>
             <input type="password" name="password" id="userPassword" placeholder="Password" required>
-            <i class="fa fa-eye icon"></i>
-            <i class="fa fa-eye-slash icon"></i>
+            <i class="fa fa-eye icon" id="eyeIcon"></i>
+            <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
             <a href="#" id="forgotPassword">Forgot password?</a>
             <button type="submit">Login</button>
         </form>

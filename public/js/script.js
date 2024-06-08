@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
     //-----------------THE FRONTEND JAVASCRIPT---------------------------
     const footer = document.getElementById('footer');
     // Open dropdown menu
@@ -15,27 +16,44 @@ document.addEventListener('DOMContentLoaded', function() {
         closeIcon.style.display = 'none';
     }
 
-    // MENU BAR FUNCTIONALITY
+    // MENU, AUTHORIZATION BUTTONS FUNCTIONALITY
     const menuIcon = document.getElementById('menuIcon');
     const closeIcon = document.getElementById('closeIcon');
     const menuDropdown = document.getElementById('menuDropdown');
 
+    // Handling of document click events
     document.addEventListener('click', (e) => {
-        if (e.target === menuIcon) {
+        if (e.target === menuIcon) { // Open dropdown menu
             openDropdown();
         }
-        if (e.target === closeIcon) {
+        if (e.target === closeIcon) { // Closing dropdown menu 
             closeDropdown();
         }
-    });
-
-    // Click events
-    // Close the dropdown menu when navigating to another page
-    menuDropdown.addEventListener('click', (e) => {
-        if(e.target.classList.contains('navigationLink')){
-            closeDropdown();
+        if (e.target.id === 'loginFormBtn') { // Open login form
+            window.location.href = '/login';
         }
-        e.stopPropagation();
+        if (e.target.id === 'signupFormBtn') { // Open signup form
+            window.location.href = '/signup';
+        }
+        if (e.target.classList.contains('navigationLink')) {
+            closeDropdown();
+            e.stopPropagation();
+        }
+        if (e.target.id === 'continue') {
+            const firstSignupPage = document.getElementById('firstSignupPage');
+            const lastSignupPage = document.getElementById('lastSignupPage');
+            const formHeading = document.getElementById('createAccountHeading');
+            firstSignupPage.style.display = 'none';
+            lastSignupPage.style.display = 'flex';
+            formHeading.innerHTML = `
+                Finish up creating your account
+            `;
+        }
+        if (e.target.id === 'backArrow') {
+            e.preventDefault();
+            window.location.href = '/signup';
+            e.preventDefault();
+        }
     });
 
     // Close dropdown when clicking outside of it
@@ -45,43 +63,149 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Open login form function
-    document.getElementById('loginFormBtn').addEventListener('click', () => {
-        window.location.href = '/login';
-    });
+    //  POPUP CONTAINER FOR USEFUL MESSAGES TO THE USER
+    const popupContainer = document.createElement('div');
+    const popup = document.createElement('div');
+    popup.id = 'userPopup';
 
-    // Open signup form function
-    document.getElementById('signupFormBtn').addEventListener('click', () => {
-        window.location.href = '/signup';
-    });
+    // Function to create and show popup
+    function createPopup() {
+        popupContainer.classList.add("popupContainer", "column_flex_container_center");
+        popup.innerHTML = `
+            <h4 id="popupHeader">Head</h4>
+            <p id="popupMessage">This is the popup box where the user will be getting their messages through.</p>
+            <button id="popupOkBtn" onclick="closePopup()">OK</button>
+        `;
+        popup.classList.add("popup", "column_flex_container");
+        popupContainer.appendChild(popup);
+        document.body.appendChild(popupContainer);
+
+        document.getElementById('popupOkBtn').addEventListener('click', closePopup);
+        popupContainer.style.display = 'flex';
+    }
+    
+    // Close popup
+    function closePopup() {
+        popupContainer.style.display = 'none';
+    }
+
+    // Update popup message
+    function updatePopupMessage(newHeader, newMessage) {
+        const popupHeaderElement = document.getElementById('popupHeader');
+        const popupMessageElement = document.getElementById('popupMessage')
+        popupHeaderElement.textContent = newHeader;
+        popupMessageElement.textContent = newMessage;
+    }
+    
+    // TOGGLING THE VISIBILITY OF PASSWORD
+    const userPassword = document.getElementById('userPassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+
+    eyeIcon.addEventListener('click', togglePasswordVisibility);
+    eyeSlashIcon.addEventListener('click', togglePasswordVisibility);
+    // Function to toggle password visibility
+    function togglePasswordVisibility() {
+        const type = userPassword.getAttribute('type') === 'password' ? 'text' : 'password'; // If password, toggle to text and if text, toggle to password
+        userPassword.setAttribute('type', type);
+
+        // Toggle visibility icon
+        if (type === 'password') {
+            eyeIcon.style.display = 'inline-block';
+            eyeSlashIcon.style.display = 'none';
+        } else {
+            eyeIcon.style.display = 'none';
+            eyeSlashIcon.style.display = 'inline-block';
+        }
+    }
+    
 
     //----------------------------JAVASCRIPT COMMUNICATING WITH THE BACKEND----------------------------------
 
-    // Signup functionality
+    // SIGNUP FUNCTIONALITY
     const signupForm = document.getElementById('signupForm');
-    signupForm.addEventListener('submit', async (e) => {
+    
+    if (signupForm) {
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Ensure that user chooses a role before submitting the signup form
+            const role = document.getElementsByName('roleChoice');
+            let isChecked = false;
+
+            for (const radio of role) {
+                if (radio.checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+
+            if (!isChecked) {
+                alert('Please choose a role');
+                return;
+            }
+
+            const formData = new FormData(signupForm);
+            const username = formData.get('username');
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const phone = formData.get('phone');
+            const roleChoice = formData.get('roleChoice');
+
+            try {
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password, phone, roleChoice })
+                });
+
+                if (response.ok) {
+                    createPopup();
+                    updatePopupMessage('Congratulations', 'Registration successful. You can now login to your account');
+                    document.getElementById('popupOkBtn').addEventListener('click', () => {
+                        window.location.href = '/login';
+                    }, { once: true });
+                } else {
+                    alert('Registration failed');
+                }
+                
+            } catch (err) {
+                console.log(`An error occurred: ${err}`);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    } // The end of the signup functionality
+
+
+    // LOGIN FUNCTIONALITY
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(signupForm);
+        const formData = new FormData(loginForm);
         const username = formData.get('username');
-        const email = formData.get('email');
         const password = formData.get('password');
+
         try {
-            const response = await fetch('/signup', {
+            const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify({ username, email, password })
+                body: JSON.stringify({ username, password })
             });
             if (response.ok) {
-                alert('Registration made successful');
+                alert('Login successful');
+                window.location.href = '/platform';
             } else {
-                alert('Registration failed');
+                alert('Login failed. Ensure to enter a valid name and the correct password');
             }
-        } catch (err) {
-            console.error(`An error occured: ${err}`);
-            alert('An error occured. Please try again later.')
+        } catch (error) {
+            console.error('An error occured!', error);
         }
-    });
+    }); // The end of the login functionality
+
 
 }); // DOMContentLoaded function

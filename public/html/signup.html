@@ -5,124 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WastEradict</title>
     <link rel="shortcut icon" href="../images/appLogo.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!--Poppins font-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  <!-- Link to Font Awesome CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body {
+            padding-top: 20px;
+            align-items: center;
+            background-color: green;
+        }
+        .signupFormContainer {
+            box-shadow: 1px 2px 8px 1px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 450px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .logoContainer {
+            padding-top: 40px;
+            width: 100%;
+            height: 100px;
+        }
+        .logoContainer img {
+            width: 15%;
+            height: auto;
+        }
+        #platformName {
+            font-weight: bolder;
+            font-size: 1.9rem;
+        }
+        .signupFormContainer > p {
+            text-align: center;
+        }
+        .signupFormContainer form {
+            margin-top: 20px;
+            gap: 10px;
+            width: 100%;
+        }
+        form #firstSignupPage {
+            margin-bottom: 50px;
+            position: relative;
+            width: 100%;
+            gap: 10px;
+        }
+        #lastSignupPage {
+            display: none;
+        }
+        form #lastSignupPage {
+            margin-bottom: 50px;
+            position: relative;
+            width: 100%;
+            gap: 10px;
+        }
+        form input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 80%;
+            padding: 7px;
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid gray;
+            font-size: 1.19rem;
+        }
+        form button {
+            width: 84%;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: green;
+            border: none;
+            outline: none;
+            padding: 7px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: rgb(43, 143, 43);
+        }
+        .haveAccount a {
+            color: forestgreen;
+            font-weight: bold;
+        }
+        .haveAccount a:hover {
+            text-decoration: underline;
+        }
+        form .icon {
+            bottom: 46%;
+        }
+        .roleChoice {
+            width: 80%;
+            gap: 15%;
+        }
+        #chooseRole {
+            font-weight: bold;
+        }
+        .errorMessage {
+            color: red;
+        }
+        #usernameError {
+            position: relative;
+            top: -11px;
+        }
+        .fa-arrow-left{
+            color: black;
+            font-size: 1.1rem;
+            font-weight: lighter;
+            cursor: pointer;
+            padding-inline: 10px;
+            padding-block: 8px;
+            border-radius: 50%;
+        }
+        .fa-arrow-left:hover{
+            transition: transform ease-in 0.3s;
+            transform: scale(1.09);
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        @media (max-width: 1020px) {
+            .roleChoice {
+                gap: 5%;
+            }
+        }
+    </style>
 </head>
-<style>
-    body{
-        padding-top: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: green;
-    }
-    .signupFormContainer{
-        box-shadow: 1px 2px 8px 1px rgba(0, 0, 0, 0.3);
-        height: 90vh;
-        width: 80%;
-        max-width: 450px;
-        border-radius: 5px;
-        background-color: white;
-    }
-    .logoContainer{
-        justify-content: center;
-        align-items: center;
-        padding-top: 40px;
-        width: 100%;
-        height: 100px;
-    }
-    .logoContainer img{
-        width: 15%;
-        height: auto;
-    }
-    #platformName{
-        font-weight: bolder;
-        font-size: 1.9rem;
-    }
-    .signupFormContainer > p{
-        text-align: center;
-    }
-    .signupFormContainer form{
-        margin-top: 20px;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-    }
-    input{
-        width: 80%;
-        padding: 7px;
-        border-radius: 5px;
-        outline: none;
-        border: 1px solid gray;
-        font-size: 1.19rem;
-    }
-    form{
-        margin-bottom: 50px;
-        position: relative;
-    }
-    form button{
-        width: 84%;
-        font-size: 1.2rem;
-        font-weight: bold;
-        background-color: green;
-        border: none;
-        outline: none;
-        padding: 7px;
-        margin-top: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    form button:hover{
-        background-color: rgb(43, 143, 43);
-    }
-    .haveAccount{
-        justify-content: center;
-        align-items: center;
-    }
-    .haveAccount a{
-        color: forestgreen;
-        font-weight: bold;
-    }
-    .haveAccount a:hover{
-        text-decoration: underline;
-    }
-    /* The password toggle eye icon */
-    form .icon{
-        font-size: 1.4rem;
-        color: black;
-        margin-right: 20px;
-        position: absolute;
-        right: 5%;
-        bottom: 34%;
-        color: green;
-        cursor: pointer;
-        display: none;
-    }
-</style>
-<body>
-    <div class="signupFormContainer">
-        <div class="logoContainer column_flex_container">
+<body class="column_flex_container_center">
+    <div class="signupFormContainer column_flex_container_center">
+        <div class="logoContainer column_flex_container_center">
             <img src="../images/appLogo.png" alt="Logo">
             <p id="platformName">WastEradict</p>
         </div>
         <br>
-        <p>Create an account from here</p>
-        <form action="" id="signupForm" class="column_flex_container">
-            <input type="text" name="username" id="username" placeholder="Username" required>
-            <input type="email" name="email" id="email" placeholder="Email Address" required>
-            <input type="password" name="password" id="userPassword" placeholder="Password" required>
-            <i class="fa fa-eye icon" id="eyeIcon"></i>
-            <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
-            <button type="submit">Signup</button>
-        </form>
-        <div class="haveAccount column_flex_container">
-            <p>Already have an account?</p>
-            <p><a href="/login">Login</a></p>
-        </div>
-    </div>
+        <p id="createAccountHeading">Create an account from here</p>
+        <form id="signupForm" class="signupDiv column_flex_container_center">
+            <div id="firstSignupPage" class="column_flex_container_center">
+                <input type="text" name="username" id="username" placeholder="Username" required autofocus>
+                <p id="usernameError" class="errorMessage"></p>
 
+                <input type="email" name="email" id="email" placeholder="Email Address" required>
+                <p id="emailError" class="errorMessage"></p>
+
+                <input type="password" name="password" id="userPassword" placeholder="Password" required>
+                <i class="fa fa-eye icon" id="eyeIcon"></i>
+                <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
+
+                <button id="continue">Continue</button>
+                <div class="haveAccount column_flex_container_center">
+                    <p>Already have an account?</p>
+                    <p><a href="/login">Login</a></p>
+                </div>
+            </div>
+            <div id="lastSignupPage" class="signupDiv column_flex_container_center">
+                <input type="tel" name="phone" id="phone" placeholder="Phone" required>
+                <p id="chooseRole">Choose your role</p>
+                <div class="roleChoice row_flex_container_center">
+                    <div class="residentDiv">
+                        <input type="radio" name="roleChoice" id="residentBtn" value="Resident">
+                        <label for="resident">Resident</label>
+                    </div>
+                    <div class="workerDiv">
+                        <input type="radio" name="roleChoice" id="sanitationWorkerBtn" value="Sanitarian">
+                        <label for="sanitationWorkerBtn">Sanitarian</label>
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+                <div class="haveAccount column_flex_container_center">
+                    <p>Already have an account?</p>
+                    <p><a href="/login">Login</a></p>
+                </div>
+                <br>
+                <i class="fa fa-arrow-left" id="backArrow"></i> <!-- Arrow left for navigating backwards -->
+            </div>
+        </form>
+    </div>
     <script src="../js/script.js"></script>
 </body>
 </html>

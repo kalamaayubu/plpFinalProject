@@ -1,22 +1,30 @@
 // THE SERVER
 const express = require('express');
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 const path = require('path');
-const { check, validationResults } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const dotenv = require('dotenv'); // A module to load environment variables from a .env file
-const { table } = require('console');
+// Debugging modules
+const morgan = require('morgan'); // A module for HTTP request logging
 
 const app = express();
+
 dotenv.config() // Load environment variables from the .env file into provess.env
 const PORT = process.env.PORT || 3000; 
+app.use(morgan('dev')); // Add Morgan middleware for HTTP request logging
+// app.use(expressDebug({})); // Use the express-debug middleware
+
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// DEFINING THE PUBLIC ROUTES
-// Root route
+
+
+// DEFINING ROUTES
+// Public routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'landing.html'));
 });
@@ -41,9 +49,20 @@ app.get('/resources',(req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'resources.html'));
 });
 
+// Protected routes
+app.get('/platform', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'wasteradict.html'));
+});
+
+
+
+
 // Middleware to pass incoming JSON
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Create MySQL connection
 const connection = mysql.createConnection({
@@ -62,38 +81,53 @@ connection.connect((err) => {
 });
 
 
+// Session Middleware Configuration
+app.use(session({
+    secret: 'b4|t8#9q@y/ug79&yg9*0t9!t8~t4',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        maxAge: 15 * 60 * 1000 // Session expires after 15 minutes of inactivity
+    }
+}));
+
+
 // OBJECT REPRESENTING USER-RELATED DATABASE OPERATIONS
 const User = {
     tableName: 'users',
     createUser: (newUser, callback) => {
-        connection.query(`INSERT INTO ${User.tableName} SET  ?`, [newUser], callback);
-    },
-    getUserByUsername: (username, callback) => {
-        connection.query(`SELECT * FROM ${User.tableName} WHERE username = ?`, [username], callback);
+        connection.query(`INSERT INTO ${User.tableName} SET ?`, [newUser], callback);
     },
     getUserByEmail: (email, callback) => {
         connection.query(`SELECT * FROM ${User.tableName} WHERE email = ?`, [email], callback);
+    },
+    getUserByUsername: (username, callback) => {
+        connection.query(`SELECT * FROM ${User.tableName} WHERE username = ?`, [username], callback);
     }
 };
-
 
 // SIGNUP ROUTE
 app.post('/signup', [
     // Validate username and email
     check('username').trim().notEmpty().withMessage('Username must be alphanumerical'),
-    check('email').isEmail(),
+    check('email').isEmail().withMessage('Please enter a valid email address'),
+    check('password').notEmpty().withMessage('Password id required'),
+    check('phone').trim().notEmpty().withMessage('Phone number is required'),
+    check('roleChoice').trim().notEmpty().withMessage('You must choose a role'),
 
     // Custom validation to check if the username and the email is unique
-    check('username').custom(async (value) => {
-        const user = await User.getUserByUsername(value);
-        if (user) {
-            throw new Error('Username already exist');
-        }
-    }),
     check('email').custom(async (value) => {
         const user = await User.getUserByEmail(value);
         if (user) {
-            throw new Error('Email already exist');
+            throw new Error('Email already exists');
+        }
+    }),
+    check('username').custom(async (value) => {
+        const user = await User.getUserByUsername(value);
+        if (user) {
+            throw new Error('Username already exists');
         }
     }),
 ], async (req, res) => {
@@ -111,18 +145,48 @@ app.post('/signup', [
     const newUser = {
         username: req.body.username,
         email: req.body.email,
-        password: hashedPassword
+        password: hashedPassword,
+        phone: req.body.phone,
+        role: req.body.roleChoice
     };
 
     // Insert a new user to the database
     User.createUser(newUser, (error, results, fields) => {
-        if (error) {
+        if(error) {
             console.error(`Error inserting user: ${error.message}`);
-            return res.status(500).json({ error: error.message })
+            return res.status(500).json({ error: error.message });
         }
-        console.log(`Successful inserted a new user with the id ${results.insertId}`);
-        return res.status(200).json(newUser);
-    })
+        console.log(`Inserted a new user with id ${results.insertId}`);
+        res.status(201).json(newUser);
+    });
+}); // The end of signup route functionality
+
+
+// LOGIN ROUTE
+app.post('/login', (req, res) => {
+    const {username, password} = req.body; // Object destructuring to extract the username and password properties from the req.body object
+    // Retrieving user from database
+    connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results, fields) => {
+        if (error) {
+            return console.error('An error occurred:', error);
+        }
+        if (results === 0) {
+            res.status(401).send('User does not exist');
+        } 
+        const user = results[0];
+
+        // Compare passwords
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+            if(err) throw err;
+            if (isMatch) {
+                // Store user in session
+                req.session.userId = user.id;
+                res.status(200).send('Login made successful');
+            } else{
+                res.status(401).send('Wrong password');
+            }
+        });
+    });
 });
 
 // Start the server
