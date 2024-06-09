@@ -4,9 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WastEradict</title>
+    <link rel="shortcut icon" href="../images/appLogo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!--Poppins font-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        html, body{
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        header{
+            padding-block: 0px;
+        }
+        header img{
+            margin-block: 4px;
+            margin-top: 6px;
+        }
+        /* The menuIcon and the userIcon(profile) */
+        .menuIconAndLogout{
+            justify-content: space-between;
+            width: 20%;
+            max-width: 150px;
+        }
+        .menuClass{
+            text-align: center;
+        }
+        .fa{
+            font-size: 2rem;
+            cursor: pointer;
+            }
+        #menuIcon, #closeIcon{
+            padding-block: 7px;
+            padding-inline: 9px;
+            position: absolute;
+            margin: 0 auto;
+            border-radius: 50%;
+            transition: background-color ease-in 0.2s;
+        }
+        #menuIcon:hover, #closeIcon:hover{
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        #userIcon{
+            padding-block: 5px;
+            padding-inline: 9px;
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 1px solid gray;
+            transition: background-color ease-in 0.3s;
+        }
+        #userIcon:hover{
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        #userDropdown{
+            position: absolute;
+            display: none;
+            border-radius: 5px;
+            box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.5);
+            width: 150px;
+            height: 70px;
+            right: 0;
+            top: 59px;
+            background-color: white;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #userDropdown > span{
+            cursor: pointer;
+            margin: 3px;
+            color: black;
+        }
+        #userDropdown > span:hover{
+            color: blue;
+        }
+        #dropDownMenu{
+            position: absolute;
+            background-color: green;
+            top: 74px;
+            bottom: 0;
+            right: 0px;
+            width: 200px;
+            flex: 1;
+            float: left;
+        }
+
+        @media(max-width: 1200px) {
+            .fa{
+                font-size: 1.4rem;
+            }
+        }
+        @media(max-width: 500px){
+            #logo {
+                width: 150px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>    THERE IS NOTHING TO DISPLAY HERE YET...... But you know what? Stay tuned we are cooking amazing stuffs for you. I be you will love it.
-    </p>
+    <div id="dropDownMenu">
+
+    </div>
+
+    <header class="row_flex_container">
+        <div id="logoContainer">
+            <img src="../images/logo.png" alt="Logo" id="logo">
+        </div>
+        <div class="menuIconAndLogout row_flex_container">
+            <div class="menuClass">
+                <i class="fa fa-bars" id="menuIcon"></i>
+                <i class="fa fa-times" id="closeIcon"></i>
+            </div>
+            <div class="logout" id="userInfoAndLogout">
+                <i class="fa fa-user" aria-hidden="true" id="userIcon"></i>
+                <div id="userDropdown" class="column_flex_container_center">
+                    <span id="accountInfo">Profile</span>
+                    <span id="logout">Logout</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="platformMain">
+        
+    </main>
+    <script src="../js/script.js"></script>
 </body>
 </html>

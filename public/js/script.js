@@ -1,6 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed');
     //-----------------THE FRONTEND JAVASCRIPT---------------------------
+
+    // THE PROFILE DETAILS AND LOGOUT FUNCTIONALITY
+    const userInfoAndLogout = document.getElementById('userInfoAndLogout');
+    const userDropdown = document.getElementById('userDropdown');
+    if (userInfoAndLogout && userDropdown) {
+        userInfoAndLogout.addEventListener('mouseenter', () => {
+            userDropdown.style.display = 'flex';
+        });
+        userInfoAndLogout.addEventListener('mouseleave', () => {
+            userDropdown.style.display = 'none';
+        });
+    }
+        
+
+
     const footer = document.getElementById('footer');
     // Open dropdown menu
     function openDropdown(){
@@ -50,17 +65,22 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
         if (e.target.id === 'backArrow') {
-            e.preventDefault();
-            window.location.href = '/signup';
-            e.preventDefault();
+            const firstSignupPage = document.getElementById('firstSignupPage');
+            const lastSignupPage = document.getElementById('lastSignupPage');
+
+            lastSignupPage.style.display = 'none';
+            firstSignupPage.style.display = 'flex';
         }
     });
 
     // Close dropdown when clicking outside of it
     window.addEventListener('click', (e) => {
-        if(menuDropdown.style.display === 'flex' && !menuDropdown.contains(e.target) && e.target !== menuIcon){
-            closeDropdown();
+        if (menuDropdown) {
+            if(menuDropdown.style.display === 'flex' && !menuDropdown.contains(e.target) && e.target !== menuIcon){
+                closeDropdown();
+            }
         }
+        
     });
 
     //  POPUP CONTAINER FOR USEFUL MESSAGES TO THE USER
@@ -102,8 +122,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const eyeIcon = document.getElementById('eyeIcon');
     const eyeSlashIcon = document.getElementById('eyeSlashIcon');
 
-    eyeIcon.addEventListener('click', togglePasswordVisibility);
-    eyeSlashIcon.addEventListener('click', togglePasswordVisibility);
+    if (eyeIcon && eyeSlashIcon) {
+        eyeIcon.addEventListener('click', togglePasswordVisibility);
+        eyeSlashIcon.addEventListener('click', togglePasswordVisibility);
+    }
     // Function to toggle password visibility
     function togglePasswordVisibility() {
         const type = userPassword.getAttribute('type') === 'password' ? 'text' : 'password'; // If password, toggle to text and if text, toggle to password
@@ -161,16 +183,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify({ username, email, password, phone, roleChoice })
                 });
 
+                const data = await response.json(); // The resultant data of the response
+
                 if (response.ok) {
                     createPopup();
                     updatePopupMessage('Congratulations', 'Registration successful. You can now login to your account');
                     document.getElementById('popupOkBtn').addEventListener('click', () => {
                         window.location.href = '/login';
                     }, { once: true });
-                } else {
-                    alert('Registration failed');
-                }
-                
+                } else{
+                    // Clear previous error messages
+                    const usernameError = document.getElementById('usernameError');
+                    const emailError = document.getElementById('emailError');
+
+                    usernameError.textContent = '';
+                    emailError.textContent = '';
+
+                    if(data.errors) {
+                        // Check for specific errors for username or email
+                        data.errors.forEach(error => {
+                            if (error.msg === 'Username already exists') {
+                                usernameError.textContent = error.msg;
+                            }
+                            if (error.msg === 'Email already exists') {
+                                emailError.textContent = error.msg;
+                            }
+                        });
+                    } 
+                } 
+
             } catch (err) {
                 console.log(`An error occurred: ${err}`);
                 alert('An error occurred. Please try again later.');
@@ -181,31 +222,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // LOGIN FUNCTIONALITY
     const loginForm = document.getElementById('loginForm');
-
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(loginForm);
-        const username = formData.get('username');
-        const password = formData.get('password');
-
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
-            if (response.ok) {
-                alert('Login successful');
-                window.location.href = '/platform';
-            } else {
-                alert('Login failed. Ensure to enter a valid name and the correct password');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(loginForm);
+            const username = formData.get('username');
+            const password = formData.get('password');
+    
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                if (response.ok) {
+                    alert('Login successful');
+                    window.location.href = '/platform';
+                } else {
+                    alert('Login failed. Ensure to enter a valid name and the correct password');
+                }
+            } catch (error) {
+                console.error('An error occured!', error);
             }
-        } catch (error) {
-            console.error('An error occured!', error);
-        }
-    }); // The end of the login functionality
-
-
+        }); // The end of the login functionality
+    
+    
+    }
+    
 }); // DOMContentLoaded function
