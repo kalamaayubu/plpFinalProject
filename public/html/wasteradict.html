@@ -22,20 +22,22 @@
             margin-block: 4px;
             margin-top: 6px;
         }
-        /* The menuIcon and the userIcon(profile) */
-        .menuIconAndLogout{
+        /* The platformMenuIcon and the userIcon(profile) */
+        .platformMenuIconAndLogout{
             justify-content: space-between;
-            width: 20%;
-            max-width: 150px;
+            width: 15%;
+            max-width: 100px;
+            margin-right: 15px;
+            gap: 30px;
         }
         .menuClass{
             text-align: center;
         }
         .fa{
-            font-size: 2rem;
+            font-size: 1.5rem;
             cursor: pointer;
             }
-        #menuIcon, #closeIcon{
+        #platformMenuIcon, #platformCloseIcon{
             padding-block: 7px;
             padding-inline: 9px;
             position: absolute;
@@ -43,14 +45,15 @@
             border-radius: 50%;
             transition: background-color ease-in 0.2s;
         }
-        #menuIcon:hover, #closeIcon:hover{
+        #platformMenuIcon:hover, #platformCloseIcon:hover{
             background-color: rgba(0, 0, 0, 0.1);
         }
-        
+        #platformCloseIcon{
+            display: none;
+        }
         #userIcon{
             padding-block: 5px;
             padding-inline: 9px;
-            margin: 0 auto;
             border-radius: 50%;
             border: 1px solid gray;
             transition: background-color ease-in 0.3s;
@@ -66,7 +69,7 @@
             width: 150px;
             height: 70px;
             right: 0;
-            top: 59px;
+            top: 53px;
             background-color: white;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
@@ -81,22 +84,42 @@
         #dropDownMenu{
             position: absolute;
             background-color: green;
-            top: 74px;
+            top: 0px;
             bottom: 0;
             right: 0px;
             width: 200px;
             flex: 1;
             float: left;
+            transition: width ease-in 0.6s;
+        }
+        /* Toggling class */
+        .show{
+            display: flex;
         }
 
+        @media(min-width: 1200px) {
+            .menuClass{
+                display: none;
+             }
+            .platformMenuIconAndLogout{
+                width: 15%;
+                max-width: 80px;
+            }
+            #dropDownMenu{
+                width: 200px;
+            }
+        }
         @media(max-width: 1200px) {
-            .fa{
-                font-size: 1.4rem;
+            #dropDownMenu{
+                width: 0;
             }
         }
         @media(max-width: 500px){
             #logo {
                 width: 150px;
+            }
+            #userDropdown{
+                top: 46px;
             }
         }
     </style>
@@ -110,10 +133,10 @@
         <div id="logoContainer">
             <img src="../images/logo.png" alt="Logo" id="logo">
         </div>
-        <div class="menuIconAndLogout row_flex_container">
+        <div class="platformMenuIconAndLogout row_flex_container">
             <div class="menuClass">
-                <i class="fa fa-bars" id="menuIcon"></i>
-                <i class="fa fa-times" id="closeIcon"></i>
+                <i class="fa fa-bars" id="platformMenuIcon"></i>
+                <i class="fa fa-times" id="platformCloseIcon"></i>
             </div>
             <div class="logout" id="userInfoAndLogout">
                 <i class="fa fa-user" aria-hidden="true" id="userIcon"></i>

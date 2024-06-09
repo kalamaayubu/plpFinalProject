@@ -14,9 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
         
-
-
     const footer = document.getElementById('footer');
+
     // Open dropdown menu
     function openDropdown(){
         menuIcon.style.display = 'none';
@@ -31,6 +30,34 @@ document.addEventListener('DOMContentLoaded', function() {
         closeIcon.style.display = 'none';
     }
 
+    // The platform menu functionality
+    const platformMenuIcon = document.getElementById('platformMenuIcon');
+    const platformCloseIcon = document.getElementById('platformCloseIcon');
+    const dropDownMenu = document.getElementById('dropDownMenu');
+  
+    //Check the screewidth
+    function checkScreenWidth() {
+        if (window.innerWidth >= 1200) {
+            dropDownMenu.style.width = '200px';
+        } 
+    }
+    window.addEventListener('resize', checkScreenWidth);
+
+    // Open wastEradict platform dropdown menu
+    function openPlatformDropdown() {
+        platformMenuIcon.style.display = 'none';
+        platformCloseIcon.style.display = 'flex';
+        dropDownMenu.style.width = '200px';
+    }
+
+    // Close wastEradicat platform dropdown menu
+    function closePlatformDropdown() {
+        platformMenuIcon.style.display = 'flex';
+        platformCloseIcon.style.display = 'none';
+        dropDownMenu.style.width = '0px';
+    }
+
+    
     // MENU, AUTHORIZATION BUTTONS FUNCTIONALITY
     const menuIcon = document.getElementById('menuIcon');
     const closeIcon = document.getElementById('closeIcon');
@@ -38,6 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handling of document click events
     document.addEventListener('click', (e) => {
+        if (e.target.id === 'platformMenuIcon') { // Open wastEradict platform dropdown menu
+            openPlatformDropdown();
+        }
+        if (e.target.id === 'platformCloseIcon') { // Closing wastEradict platform dropdown menu 
+            closePlatformDropdown();
+        } 
+        
+
         if (e.target === menuIcon) { // Open dropdown menu
             openDropdown();
         }
