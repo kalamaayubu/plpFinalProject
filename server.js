@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // DEFINING ROUTES
 // Public routes
-app.get('/', (req, res) => {
+app.get('/welcome', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'landing.html'));
 });
 // Signup page route
@@ -40,21 +40,20 @@ app.get('/login', (req, res) => {
 app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'about.html'));
 });
-// Contact page route
-app.get('/contact', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'contact.html'));
-});
-// Resources page route
-app.get('/resources',(req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'resources.html'));
-});
 
 // Protected routes
-app.get('/platform', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'wasteradict.html'));
 });
-
-
+app.get('/notifications', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'notifications.html'));
+});
+app.get('/profile', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
+});
+app.get('/help', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'help.html'));
+});
 
 
 // Middleware to pass incoming JSON
@@ -186,6 +185,20 @@ app.post('/login', (req, res) => {
                 res.status(401).send('Wrong password');
             }
         });
+    });
+});
+
+
+// LOGOUT ROUTE
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logging out failed', err);
+            res.status(500).send('Logout failed');
+        } else {
+            res.clearCookie('connect.sid'); // Clearing the session cookie
+            res.status(200).send('Logged out successfully');
+        }
     });
 });
 

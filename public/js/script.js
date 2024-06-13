@@ -71,8 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.id === 'platformCloseIcon') { // Closing wastEradict platform dropdown menu 
             closePlatformDropdown();
         } 
-        
-
+        if (e.target.id === 'accountInfo') { // Navigating to the profile page
+            window.location.href = '/profile';
+        }
         if (e.target === menuIcon) { // Open dropdown menu
             openDropdown();
         }
@@ -274,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 if (response.ok) {
                     alert('Login successful');
-                    window.location.href = '/platform';
+                    window.location.href = '/';
                 } else {
                     alert('Login failed. Ensure to enter a valid name and the correct password');
                 }
@@ -282,8 +283,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('An error occured!', error);
             }
         }); // The end of the login functionality
-    
-    
     }
+
+    
+    // LOGOUT FUNCTIONALITY
+    const logout = document.getElementById('logout');
+    if (logout) {
+        logout.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    createPopup();
+                    updatePopupMessage('Bye!', 'You have successfully logged out');
+                    document.getElementById('popupOkBtn').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.location.href = '/login';
+                        history.replaceState(null, null, '/login');
+                    });
+                } else {
+                    alert('An error occurred in loging out.');
+                }
+            } catch (error) {
+                console.error('An error occured:', error)
+            }
+        }); 
+    }
+    
+
+    // Fetching the user info to display in their profile
     
 }); // DOMContentLoaded function

@@ -1,0 +1,198 @@
+
+body{
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+#platformHeader{
+    padding-block: 0px;
+}
+header img{
+    margin-block: 4px;
+    margin-top: 6px;
+}
+
+/* The platformMenuIcon and the userIcon(profile) */
+.platformMenuIconAndLogout{
+    justify-content: space-between;
+    width: 15%;
+    max-width: 100px;
+    margin-right: 15px;
+    gap: 30px;
+}
+.menuClass{
+    text-align: center;
+}
+.fa{
+    font-size: 1.5rem;
+    cursor: pointer;
+    }
+#platformMenuIcon, #platformCloseIcon{
+    padding-block: 7px;
+    padding-inline: 9px;
+    position: absolute;
+    margin: 0 auto;
+    border-radius: 50%;
+    transition: background-color ease-in 0.2s;
+}
+#platformMenuIcon:hover, #platformCloseIcon:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+#platformCloseIcon{
+    display: none;
+}
+#userIcon{
+    padding-block: 5px;
+    padding-inline: 9px;
+    border-radius: 50%;
+    border: 1px solid gray;
+    transition: background-color ease-in 0.3s;
+}
+#userIcon:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+#userDropdown{
+    position: absolute;
+    display: none;
+    border-radius: 5px;
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.5);
+    width: 150px;
+    height: 70px;
+    right: 0;
+    top: 53px;
+    background-color: white;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+#userDropdown > *{
+    cursor: pointer;
+    margin: 3px;
+    color: black;
+}
+#userDropdown > *:hover{
+    color: blue;
+}
+#userDropdown a{
+ margin: 0;
+ padding: 0;
+}
+#dropDownMenu{
+    z-index: 8;
+    position: absolute;
+    border-left: 1px solid lightgray;
+    top: 0px;
+    bottom: 0;
+    right: 0px;
+    width: 200px;
+    padding-top: 80px;
+    background-color: white;
+    flex: 1;
+    float: left;
+    transition: width ease-in 0.6s;
+    height: 100vh;
+}
+/* The navigation container */
+#navigationContainer{
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding-right: 200px;
+    transition: width ease-in 0.5s;
+}
+#navigationContainer a{
+    text-align: center;
+    color: blue;
+    padding-block: 10px;
+    transition: width ease-in 0.5s;
+    font-size: 1.1rem;
+}
+main{
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    padding-top: 90px;
+}
+#platformMainContainer:nth-child(1){
+width: 100%;
+}
+.pageMainContent{
+    width: 100%;
+    max-width: 1000px;
+}
+#profileContentContainer{
+    width: 90%;
+}
+#profileContainer{
+    text-align: center;
+    margin-right: 20px;
+}
+#profileContainer p{
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+#profileIcon{
+    font-size: 4rem;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    border-radius: 50%;
+}
+
+/* platform main container */
+#platformMainContainer{
+    width: 100%;
+    overflow-y: scroll; /* Hide scroll bar for browsers(chrome, safari)*/
+    scrollbar-width: none;  /* Firefox */   
+}
+/*  Hide scrollbar for chrome, safari and opera*/
+#platformMainContainer::-webkit-scrollbar {
+    display: none;
+}
+
+#profileContentContainer{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.userInfo{
+    padding: 10px;
+    border: 1px solid black;
+}
+
+@media(min-width: 1200px) {
+    .menuClass{
+        display: none;
+     }
+    .platformMenuIconAndLogout{
+        width: 15%;
+        max-width: 80px;
+    }
+    #dropDownMenu{
+        width: 200px;
+    }
+    main{
+        width: calc(100vw - 200px);
+    }
+}
+@media(max-width: 1200px) {
+    a{
+        width: 0px;
+    }
+    #dropDownMenu{
+        width: 0;
+    }
+}
+@media(max-width: 500px){
+    #logo {
+        width: 150px;
+    }
+    #userDropdown{
+        top: 46px;
+    }
+    main{
+        padding-top: 78px;
+    }
+}

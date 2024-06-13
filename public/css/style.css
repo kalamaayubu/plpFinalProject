@@ -27,8 +27,8 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-}
-/* Styles for the popup */
+} /* The end of the global styles */
+
 
 /* The password toggle eye icon styles*/
 form .icon{
@@ -45,13 +45,12 @@ form .icon{
     display: none;
 } /* The end of password toggle eye icon styles*/
 
-
+/* Styles for the popup */
 .popupContainer{
     position: fixed;
     width: 100vw;
     height: 100vh;
     background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
-    box-shadow: var(--box-shadow);
 }
 .popup{
     position: relative;
@@ -93,7 +92,6 @@ button{
     border: none;
     cursor: pointer;
 }
-/* The end of the global styles */
 
 *{
     margin: 0;
