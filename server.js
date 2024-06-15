@@ -22,40 +22,6 @@ app.use(morgan('dev')); // Add Morgan middleware for HTTP request logging
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
-// DEFINING ROUTES
-// Public routes
-app.get('/welcome', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'landing.html'));
-});
-// Signup page route
-app.get('/signup', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'signup.html'));
-});
-// Login page route
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
-});
-// About page route
-app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'about.html'));
-});
-
-// Protected routes
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'wasteradict.html'));
-});
-app.get('/notifications', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'notifications.html'));
-});
-app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
-});
-app.get('/help', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'help.html'));
-});
-
-
 // Middleware to pass incoming JSON
 app.use(express.json());
 app.use(bodyParser.json());
@@ -91,6 +57,44 @@ app.use(session({
         maxAge: 15 * 60 * 1000 // Session expires after 15 minutes of inactivity
     }
 }));
+
+
+
+
+// DEFINING ROUTES
+// Public routes
+app.get('/welcome', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'landing.html'));
+});
+// Signup page route
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'signup.html'));
+});
+// Login page route
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
+});
+// About page route
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'about.html'));
+});
+
+// Protected routes
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'wasteradict.html'));
+});
+app.get('/notifications', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'notifications.html'));
+});
+app.get('/profile', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'profile.html'));
+});
+app.get('/help', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'help.html'));
+});
+
+
+
 
 
 // OBJECT REPRESENTING USER-RELATED DATABASE OPERATIONS
@@ -201,6 +205,38 @@ app.post('/logout', (req, res) => {
         }
     });
 });
+
+// ROUTE OF THE USER INFORMATION
+app.get('/profile/userData', (req, res) => {
+    const userId = req.session.userId;
+
+    console.log('Session userId:', userId);
+    if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized: Please log in' });
+    }
+
+    connection.query('SELECT username, email, phone, role, createdAt FROM users WHERE userId = ?', [userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            return res.status(500).json({ error: 'Error fetching user data' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const userData = {
+            username: results[0].username,
+            email: results[0].email,
+            phone: results[0].phone,
+            role: results[0].role,
+            createdAt: results[0].createdAt
+        };
+
+        res.json(userData);
+    });
+});
+
 
 // Start the server
 app.listen(PORT, () => {

@@ -312,7 +312,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }); 
     }
     
+    // ADD EVENT LISTENER TO PROFILE SPAN FOR NAVIGATION
+    const profileSpan = document.getElementById('userInfo');
+    if (profileSpan) {
+        profileSpan.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = '/profile';
 
-    // Fetching the user info to display in their profile
+
+            // FUNCTION TO FETCH THE USER INFO TO BE DISPLAYED IN THEIR PROFILE
+            async function fetchUserData() {
+                try {
+                    const response = await fetch('/profile/userData', {
+                        method: 'GET',
+                        credentials: "same-origin"
+                    });
+                    console.log('Response status:', response.status);
+                    console.log('Content-Type:', response.headers.get('content-type'));
+
+                    if (response.status === 401) {
+                        // alert('You are not logged in. Please head on login page');
+                        // window.location.href = '/login';
+                    }
+                    if (response.status === 500) {
+                        alert('An error occured fecthing user data');
+                    }
+                    if (response.status === 404) {
+                        alert('The user is not found');
+                    }
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch user profile:, ${response.status}`);
+                    }
+                    const user = await response.json();
+                    console.log('User data:', user);
+
+                    // Display user data in the profile page
+                    document.getElementById('profileName').textContent = user.username;
+                    document.getElementById('profileEmail').textContent = user.email;
+                    document.getElementById('profilePhone').textContent = user.phone;
+                    document.getElementById('profileRole').textContent = user.role;
+                    document.getElementById('profileDate').textContent = user.createdAt;
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            }
+
+            // Check if the current page is the profile page and fetch user data
+            if (window.location.pathname === '/profile') {
+                fetchUserData();
+            }  
+        });
+    }
+    
     
 }); // DOMContentLoaded function
