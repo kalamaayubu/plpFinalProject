@@ -238,6 +238,33 @@ app.get('/profile/userData', (req, res) => {
 });
 
 
+// ROUTE TO WORK WITH MAP PINS
+app.get('/api/pins', (req, res) => {
+    const query = 'SELECT * FROM pins';
+    connection.query(query, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+    });
+});
+
+app.post('/api/pin', (req, res) => {
+    const { lattitude, longitude, description, pinUser } = req.body;
+    const query = 'INSERT INTO pins (lattitude, longitude, description, pinUser) VALUES (?, ?, ?, ?)';
+    connection.query(query, [lattitude, longitude, description, pinUser], (err, result) => {
+        if (err) throw err;
+        res.json({ pinId: result.insertId, lattitude, longitude, description, pinUser });
+    });
+});
+
+app.delete('/api/pin/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM pins WHERE pinId = ?';
+    connection.query(query, [id], (err, result) => {
+        if (err) throw err;
+        res.json({ success: true });
+    });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);

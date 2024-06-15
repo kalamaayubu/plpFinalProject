@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!--Poppins font-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/main.css">
     <style>
@@ -18,7 +19,19 @@
             display: flex;
             flex-direction: column;
         }
-         
+        main{
+            padding-top: 75px;
+            z-index: 1;
+        }
+        #map{
+            width: 100%;
+            height: 100%;
+        }
+        @media(max-width: 500px) {
+            main{
+                padding-top: 68px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -50,11 +63,10 @@
     </header>
 
     <main id="platformMainContainer">
-        <section id="mapContainer" class="pageMainContent">
-            <p>This is the container where the MAP container would recide</p>
-        </section>
+            <div id="map"></div>
     </main>
 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="../js/script.js"></script>
 </body>
 </html>

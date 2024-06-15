@@ -364,5 +364,97 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+
+    // THE PLATFORM MAP AND ITS FUNCTIONALITIES
+// Initialize the map, centered on Kenya, with a high zoom level
+const map = L.map('map').setView([-1.286389, 36.817223], 10);
+
+// Load tiles from a public tile server with higher max zoom
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, // Allow higher zoom levels
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Orange dot icon for all markers
+const orangeIcon = L.icon({
+    iconUrl: 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png',
+    iconSize: [32, 32], // size of the icon
+    iconAnchor: [16, 32], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -32] // point from which the popup should open relative to the iconAnchor
+});
+
+// Locate the user with a higher zoom level
+map.locate({ setView: true, maxZoom: 18 });
+
+function onLocationFound(e) {
+    const userMarker = L.marker(e.latlng, {icon: orangeIcon}).addTo(map)
+        .bindPopup("You are here").openPopup();
+}
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
+map.on('locationfound', onLocationFound);
+map.on('locationerror', onLocationError);
+
+// Fetch existing pins from the server
+fetch('/api/pins')
+    .then(response => response.json())
+    .then(pins => {
+        pins.forEach(pin => {
+            addPinToMap(pin);
+        });
+    });
+
+// Add pin functionality
+map.on('click', function(e) {
+    const description = prompt("Enter a description for your pin:");
+    const pinUser = prompt("Enter your username:");
+    if (description && pinUser) {
+        fetch('/api/pin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                lattitude: e.latlng.lat,
+                longitude: e.latlng.lng,
+                description: description,
+                pinUser: pinUser
+            })
+        }).then(response => response.json())
+          .then(pin => {
+              addPinToMap(pin);
+          });
+    }
+});
+
+function addPinToMap(pin) {
+    const marker = L.marker([pin.lattitude, pin.longitude], {icon: orangeIcon}).addTo(map)
+        .bindPopup(`
+            ${pin.pinUser}: ${pin.description}
+            <br>
+            <button onclick="unpinLocation(${pin.pinId}, this)">Unpin</button>
+        `);
+    marker.pinId = pin.pinId;
+}
+
+window.unpinLocation = function(pinId, button) {
+    fetch(`/api/pin/${pinId}`, {
+        method: 'DELETE'
+    }).then(response => response.json())
+      .then(result => {
+          if (result.success) {
+              map.eachLayer(layer => {
+                  if (layer instanceof L.Marker && layer.pinId === pinId) {
+                      map.removeLayer(layer);
+                  }
+              });
+          } else {
+              alert('Failed to unpin location');
+          }
+      });
+};
     
 }); // DOMContentLoaded function

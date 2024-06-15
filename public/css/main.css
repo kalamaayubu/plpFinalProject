@@ -9,6 +9,9 @@ body::-webkit-scrollbar{
 #platformHeader{
     padding-block: 0px;
 }
+header{
+    box-shadow: 1px 1px 8px 0.5px rgba(0, 0, 0, 0.2);
+}
 header img{
     margin-block: 4px;
     margin-top: 6px;
@@ -111,11 +114,11 @@ header img{
 main{
     width: 100vw;
     height: 100vh;
-    background-color: white;
     padding-top: 90px;
 }
+
 #platformMainContainer:nth-child(1){
-width: 100%;
+width: 100vw;
 }
 .pageMainContent{
     width: 95%;
@@ -187,7 +190,7 @@ width: 100%;
 }
 @media(max-width: 500px){
     #logo {
-        width: 150px;
+        width: 180px;
     }
     #userDropdown{
         top: 46px;
