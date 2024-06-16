@@ -2,6 +2,7 @@
 body{
     overflow-y: hidden;
     scrollbar-width: none;
+    transition: background-color 0.5s ease-in;
 }
 body::-webkit-scrollbar{
     display: none;
@@ -11,6 +12,7 @@ body::-webkit-scrollbar{
 }
 header{
     box-shadow: 1px 1px 8px 0.5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease-in;
 }
 header img{
     margin-block: 4px;
@@ -114,7 +116,7 @@ header img{
 main{
     width: 100vw;
     height: 100vh;
-    padding-top: 90px;
+    padding-top: 75px;
 }
 
 #platformMainContainer:nth-child(1){
@@ -164,6 +166,72 @@ width: 100vw;
     padding: 10px;
     border: 1px solid black;
 }
+
+/* THE LIGHT OR DARK THEME TOGGLE STYLES */
+
+/* The theme: dark theme and light theme */
+.theme{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: black;
+    transition: background-color 0.5s ease;
+}
+.theme span{
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.5s ease;
+}
+.theme span:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.theme #lightMode{
+    display: none;
+    color: white;
+}
+.theme #lightMode:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.bodyDarkSetting{
+    background-color: #111111;
+    color: white;
+}
+.headerLightSetting{
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+/* The theme tooltips style */
+.theme div{
+    width: 200px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    top: 45px;
+    padding: 5px 10px;
+    text-align: center;
+    z-index: 10;
+    border-radius: 5px;
+}
+
+/* Switch to dark theme tooltip */
+#darkModeTooltip{
+    display: none;
+    background-color: #7a7a7a;
+    color: white;
+}
+/* Switch to light theme tooltip */
+#lightModeTooltip{
+    display: none;
+    background-color: white;
+    color: #111111;
+}
+/* THE END OF THE TOGGLE THEME STYLES */
 
 @media(min-width: 1200px) {
     .menuClass{

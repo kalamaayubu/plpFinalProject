@@ -178,6 +178,68 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 
+    // THE DARK AND LIGHT THEME TOGGLE FUNCTIONALITY
+    const header = document.getElementById('platformHeader');
+    const darkMode = document.getElementById('darkMode');
+    const darkModeTooltip = document.getElementById('darkModeTooltip');
+    const lightMode = document.getElementById('lightMode');
+    const lightModeTooltip = document.getElementById('lightModeTooltip');
+    const theme = document.querySelector('.theme');
+
+
+    if (theme) {
+        theme.addEventListener('mouseover', (e) => {
+            if (e.target === darkMode) {
+                darkModeTooltip.style.display = 'inline';
+            }
+            if (e.target.id === 'userIcon') {
+                document.getElementById('userIcon').style.backgroundColor = 'lightgray';
+            }
+            if (e.target === lightMode) {
+                lightModeTooltip.style.display = 'inline';
+            }
+        });
+        theme.addEventListener('mouseout', (e) => {
+            if (e.target === darkMode) {
+                darkModeTooltip.style.display = 'none';
+            }
+            if (e.target === lightMode) {
+                lightModeTooltip.style.display = 'none';
+            }
+        });
+        theme.addEventListener('click', (e) => {
+            if (e.target === darkMode) {
+                darkMode.style.display = 'none';
+                lightMode.style.display = 'inline';
+                this.body.style.backgroundColor = 'black';
+                this.body.style.color = 'white';
+                header.style.backgroundColor = 'black';
+                header.style.boxShadow = '1px 1px 8px 0.5px rgba(225, 225, 225, 0.2)';
+                document.getElementById('platformMenuIcon').style.color = 'white';
+                document.getElementById('platformCloseIcon').style.color = 'white';
+                document.getElementById('userIcon').style.color = 'white';
+                dropDownMenu.style.backgroundColor = 'black';
+                document.querySelector('popup').style.color = 'black';
+            }
+            if (e.target === lightMode) {
+                lightMode.style.display = 'none';
+                darkMode.style.display = 'inline';
+                this.body.style.backgroundColor = 'white';
+                this.body.style.color = 'black';
+                header.style.backgroundColor = 'white';
+                document.getElementById('platformMenuIcon').style.color = 'black';
+                document.getElementById('platformCloseIcon').style.color = 'black';
+                document.getElementById('userIcon').style.color = 'black';
+                dropDownMenu.style.backgroundColor = 'white';
+                header.style.boxShadow = '1px 1px 8px 0.5px rgba(0, 0, 0, 0.2)';
+
+            }
+        });
+    }
+    
+    
+
+
     //----------------------------JAVASCRIPT COMMUNICATING WITH THE BACKEND----------------------------------
 
     // SIGNUP FUNCTIONALITY
@@ -274,8 +336,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify({ username, password })
                 });
                 if (response.ok) {
-                    alert('Login successful');
-                    window.location.href = '/';
+                    createPopup();
+                    updatePopupMessage('Welcome', 'You have successfully logged in.');
+                    document.getElementById('popupOkBtn').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.location.href = '/';
+                    });
                 } else {
                     alert('Login failed. Ensure to enter a valid name and the correct password');
                 }
@@ -386,15 +452,21 @@ const orangeIcon = L.icon({
 // Locate the user with a higher zoom level
 map.locate({ setView: true, maxZoom: 18 });
 
+// A function to add the marker upon finding the place
 function onLocationFound(e) {
-    const userMarker = L.marker(e.latlng, {icon: orangeIcon}).addTo(map)
-        .bindPopup("You are here").openPopup();
+    // Create a marker at the user's location with a custom icon (orangeIcon)
+    const userMarker = L.marker(e.latlng, {icon: orangeIcon})
+        .addTo(map) // Add the marker to the map
+        .bindPopup("You are here") // Bind a popup to the marker with the message "You are here"
+        .openPopup(); // Open the popup immediately
 }
+
 
 function onLocationError(e) {
     alert(e.message);
 }
 
+// Event listener for successful and erroneous location detection
 map.on('locationfound', onLocationFound);
 map.on('locationerror', onLocationError);
 
@@ -430,16 +502,19 @@ map.on('click', function(e) {
     }
 });
 
+// Function to add a pin together with its description
 function addPinToMap(pin) {
     const marker = L.marker([pin.lattitude, pin.longitude], {icon: orangeIcon}).addTo(map)
         .bindPopup(`
             ${pin.pinUser}: ${pin.description}
+            <br>
             <br>
             <button onclick="unpinLocation(${pin.pinId}, this)">Unpin</button>
         `);
     marker.pinId = pin.pinId;
 }
 
+// Function to unpin a location
 window.unpinLocation = function(pinId, button) {
     fetch(`/api/pin/${pinId}`, {
         method: 'DELETE'

@@ -19,7 +19,9 @@
             display: flex;
             flex-direction: column;
         }
-         
+        #helpContainer{
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +37,16 @@
         <div id="logoContainer">
             <img src="../images/logo.png" alt="Logo" id="logo">
         </div>
+
+        <!-- The dark and light theme toggle container -->
+        <div class="theme">
+            <span class="material-symbols-outlined" id="lightMode">light_mode</span>
+            <div id="lightModeTooltip">Switch to light theme</div>
+
+            <span class="material-symbols-outlined" id="darkMode">dark_mode</span>
+            <div id="darkModeTooltip">Switch to dark theme</div>
+        </div>
+        
         <div class="platformMenuIconAndLogout row_flex_container">
             <div class="menuClass">
                 <i class="fa fa-bars" id="platformMenuIcon"></i>
@@ -52,7 +64,8 @@
 
     <main id="platformMainContainer">
         <section id="helpContainer" class="pageMainContent">
-            <p>This is the page HELP will be displayed</p>
+            <h3>PURPOSE OF THIS PAGE</h3>
+            <p>This page is designed to help users in navigating and using the system with ease, efficiency and no time wastage.</p>
         </section>
     </main>
 
