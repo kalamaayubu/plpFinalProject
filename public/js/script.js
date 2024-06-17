@@ -34,20 +34,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const platformMenuIcon = document.getElementById('platformMenuIcon');
     const platformCloseIcon = document.getElementById('platformCloseIcon');
     const dropDownMenu = document.getElementById('dropDownMenu');
+    const navLink = document.querySelectorAll('.navLink');
   
     //Check the screewidth
     function checkScreenWidth() {
         if (window.innerWidth >= 1200) {
             dropDownMenu.style.width = '200px';
+            dropDownMenu.style.right = '0px';
+            dropDownMenu.style.display = 'block';
+            navLink.forEach(link => {
+                link.style.display = 'block';
+            });
         } 
     }
     window.addEventListener('resize', checkScreenWidth);
 
     // Open wastEradict platform dropdown menu
     function openPlatformDropdown() {
+        dropDownMenu.style.display = 'block';
         platformMenuIcon.style.display = 'none';
         platformCloseIcon.style.display = 'flex';
         dropDownMenu.style.width = '200px';
+        dropDownMenu.style.right = '0px';
+        setTimeout(() => {
+            navLink.forEach(link => {
+                link.style.display = 'block'
+            });
+        }, 50);
     }
 
     // Close wastEradicat platform dropdown menu
@@ -55,6 +68,15 @@ document.addEventListener('DOMContentLoaded', function() {
         platformMenuIcon.style.display = 'flex';
         platformCloseIcon.style.display = 'none';
         dropDownMenu.style.width = '0px';
+        setTimeout(() => {
+            dropDownMenu.style.right = '-200px';
+            dropDownMenu.style.display = 'none';
+        }, 500);
+        setTimeout(() => {
+            navLink.forEach(link => {
+                link.style.display = 'none'
+            });
+        }, 400);
     }
 
     
@@ -238,8 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     
-
-
     //----------------------------JAVASCRIPT COMMUNICATING WITH THE BACKEND----------------------------------
 
     // SIGNUP FUNCTIONALITY
