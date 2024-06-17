@@ -10,40 +10,20 @@
     <link rel="stylesheet" href="../css/style.css">
     <style>
         body {
-            padding-top: 20px;
-            align-items: center;
-            background-color: green;
-        }
-        .signupFormContainer {
-            box-shadow: 1px 2px 8px 1px rgba(0, 0, 0, 0.3);
-            width: 80%;
-            max-width: 400px;
-            border-radius: 5px;
             background-color: white;
         }
-        .logoContainer {
-            padding-top: 40px;
-            width: 100%;
-            height: 100px;
+        .authPageImg{
+            background: no-repeat center center / cover url('../images/environCare3.jpg');
         }
-        .logoContainer img {
-            width: 15%;
-            height: auto;
+        .authFormContainer{
+            height: 50%;
         }
-        #platformName {
-            font-weight: bolder;
-            font-size: 1.9rem;
-        }
-        .signupFormContainer > p {
-            text-align: center;
-        }
-        .signupFormContainer form {
-            margin-top: 20px;
-            gap: 10px;
-            width: 100%;
+        form{
+            margin-bottom: 10px;
+            position: relative;
         }
         form #firstSignupPage {
-            margin-bottom: 50px;
+            margin-bottom: 10px;
             position: relative;
             width: 100%;
             gap: 10px;
@@ -52,7 +32,7 @@
             display: none;
         }
         form #lastSignupPage {
-            margin-bottom: 50px;
+            margin-bottom: 10px;
             position: relative;
             width: 100%;
             gap: 10px;
@@ -76,22 +56,24 @@
             border: none;
             outline: none;
             padding: 7px;
-            margin-top: 10px;
             border-radius: 5px;
             cursor: pointer;
+        }
+        #continue{
+            margin-top: 10px;
         }
         form button:hover {
             background-color: rgb(43, 143, 43);
         }
-        .haveAccount a {
+        .accountExistence a {
             color: forestgreen;
             font-weight: bold;
         }
-        .haveAccount a:hover {
+        .accountExistence a:hover {
             text-decoration: underline;
         }
         form .icon {
-            bottom: 46%;
+            bottom: 35%;
         }
         .roleChoice {
             width: 80%;
@@ -100,13 +82,7 @@
         #chooseRole {
             font-weight: bold;
         }
-        .errorMessage {
-            color: red;
-        }
-        #usernameError {
-            position: relative;
-            top: -11px;
-        }
+        
         .fa-arrow-left{
             color: black;
             font-size: 1.1rem;
@@ -128,55 +104,60 @@
         }
     </style>
 </head>
-<body class="column_flex_container_center">
-    <div class="signupFormContainer column_flex_container_center">
+<body id="loginBody" class="row_flex_container authenticationBody">
+
+    <div class="authPageImg authPageImgSize">
+        <!-- <img src="../images/environCare.jpg" alt="environment care image"> -->
+    </div>
+
+    <div class="authContainerWrapper column_flex_container">
+
         <div class="logoContainer column_flex_container_center">
             <img src="../images/appLogo.png" alt="Logo">
             <p id="platformName">WastEradict</p>
         </div>
         <br>
-        <p id="createAccountHeading">Create an account from here</p>
-        <form id="signupForm" class="signupDiv column_flex_container_center">
-            <div id="firstSignupPage" class="column_flex_container_center">
-                <input type="text" name="username" id="username" placeholder="Username" required autofocus>
-                <p id="usernameError" class="errorMessage"></p>
 
-                <input type="email" name="email" id="email" placeholder="Email Address" required>
-                <p id="emailError" class="errorMessage"></p>
+        <div class="authFormContainer">
+            <p id="createAccountHeading">Create an account from here</p>
 
-                <input type="password" name="password" id="userPassword" placeholder="Password" required>
-                <i class="fa fa-eye icon" id="eyeIcon"></i>
-                <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
-
-                <button id="continue">Continue</button>
-                <div class="haveAccount column_flex_container_center">
-                    <p>Already have an account?</p>
-                    <p><a href="/login">Login</a></p>
+            <form id="signupForm" class="column_flex_container">
+                <div id="firstSignupPage" class="column_flex_container_center">
+                    <input type="text" name="username" id="username" placeholder="Username" required autofocus>
+                    <input type="email" name="email" id="email" placeholder="Email Address" required>
+                    <input type="password" name="password" id="userPassword" placeholder="Password" required>
+                    <i class="fa fa-eye icon" id="eyeIcon"></i>
+                    <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
+                    <button id="continue">Continue</button>
                 </div>
-            </div>
-            <div id="lastSignupPage" class="signupDiv column_flex_container_center">
-                <input type="tel" name="phone" id="phone" placeholder="Phone" required>
-                <p id="chooseRole">Choose your role</p>
-                <div class="roleChoice row_flex_container_center">
-                    <div class="residentDiv">
-                        <input type="radio" name="roleChoice" id="residentBtn" value="Resident">
-                        <label for="resident">Resident</label>
+
+                <div id="lastSignupPage" class="column_flex_container_center">
+                    <input type="tel" name="phone" id="phone" placeholder="Phone" required>
+                    <p id="chooseRole">Choose your role</p>
+                    <div class="roleChoice row_flex_container_center">
+                        <div class="residentDiv">
+                            <input type="radio" name="roleChoice" id="residentBtn" value="Resident">
+                            <label for="resident">Resident</label>
+                        </div>
+                        <div class="workerDiv">
+                            <input type="radio" name="roleChoice" id="sanitationWorkerBtn" value="Sanitarian">
+                            <label for="sanitationWorkerBtn">Sanitarian</label>
+                        </div>
                     </div>
-                    <div class="workerDiv">
-                        <input type="radio" name="roleChoice" id="sanitationWorkerBtn" value="Sanitarian">
-                        <label for="sanitationWorkerBtn">Sanitarian</label>
-                    </div>
+                    <button type="submit">Submit</button>
+                    
+                    <i class="fa fa-arrow-left" id="backArrow"></i> <!-- Arrow left for navigating backwards -->
                 </div>
-                <button type="submit">Submit</button>
-                <div class="haveAccount column_flex_container_center">
-                    <p>Already have an account?</p>
-                    <p><a href="/login">Login</a></p>
-                </div>
-                <br>
-                <i class="fa fa-arrow-left" id="backArrow"></i> <!-- Arrow left for navigating backwards -->
-            </div>
-        </form>
+            </form>
+        </div>
+
+        <div class="accountExistence column_flex_container_center">
+            <p>Already have an account?</p>
+            <p><a href="/login">Login</a></p>
+        </div>
+
     </div>
+
     <script src="../js/script.js"></script>
 </body>
 </html>

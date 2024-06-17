@@ -11,46 +11,10 @@
 </head>
 <style>
     body{
-        padding-top: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: var(--primary-color);
-    }
-    .loginFormContainer{
-        justify-content: center;
-        align-items: center;
-        box-shadow: 1px 2px 8px 1px rgba(0, 0, 0, 0.3);
-        height: 90vh;
-        width: 80%;
-        max-width: 400px;
-        border-radius: 5px;
         background-color: white;
     }
-    .logoContainer{
-        justify-content: center;
-        align-items: center;
-        padding-top: 40px;
-        width: 100%;
-        height: 100px;
-    }
-    .logoContainer img{
-        width: 15%;
-        height: auto;
-    }
-    #platformName{
-        font-weight: bolder;
-        font-size: 1.9rem;
-    }
-    .loginFormContainer > p{
-        text-align: center;
-    }
-    .loginFormContainer form{
-        margin-top: 20px;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
+    .authPageImg{
+        background: no-repeat center center / cover url('../images/environCare10.jpg');
     }
     input{
         width: 80%;
@@ -61,7 +25,7 @@
         font-size: 1.19rem;
     }
     form{
-        margin-bottom: 50px;
+        margin-bottom: 10px;
         position: relative;
     }
     form button{
@@ -78,17 +42,6 @@
     form button:hover{
         background-color: rgb(43, 143, 43);
     }
-    .noAccount{
-        justify-content: center;
-        align-items: center;
-    }
-    .noAccount a{
-        color: var(--primary-color);
-        font-weight: bold;
-    }
-    .noAccount a:hover{
-        text-decoration: underline;
-    }
     #forgotPassword{
         font-weight: bold;
         color: var(--primary-color);
@@ -102,28 +55,39 @@
     }
 
 </style>
-<body>
-    <div class="loginFormContainer">
+<body id="loginBody" class="row_flex_container authenticationBody">
+
+    <div class="authPageImg authPageImgSize">
+        <!-- <img src="../images/environCare.jpg" alt="environment care image"> -->
+    </div>
+
+    <div class="authContainerWrapper column_flex_container">
+        
         <div class="logoContainer column_flex_container">
             <img src="../images/appLogo.png" alt="Logo">
             <p id="platformName">WastEradict</p>
         </div>
         <br>
-        <p>Enter your credentials to Login here</p>
-        <form action="" id="loginForm" class="column_flex_container">
-            <input type="text" name="username" id="username" placeholder="Username" required>
-            <input type="password" name="password" id="userPassword" placeholder="Password" required>
-            <i class="fa fa-eye icon" id="eyeIcon"></i>
-            <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
-            <a href="#" id="forgotPassword">Forgot password?</a>
-            <button type="submit">Login</button>
-        </form>
-        <div class="noAccount column_flex_container">
+
+        <div class="authFormContainer">
+            <p>Fill in your details to log in</p>
+
+            <form action="" id="loginForm" class="column_flex_container">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                <input type="password" name="password" id="userPassword" placeholder="Password" required>
+                <i class="fa fa-eye icon" id="eyeIcon"></i>
+                <i class="fa fa-eye-slash icon" id="eyeSlashIcon"></i>
+                <a href="#" id="forgotPassword">Forgot password?</a>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    
+        <div class="accountExistence column_flex_container">
             <p>Don't have an account?</p>
             <p><a href="/signup">Create account</a></p>
         </div>
     </div>
-
+    
     <script src="../js/script.js"></script>
 </body>
 </html>

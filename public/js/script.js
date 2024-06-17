@@ -79,6 +79,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 400);
     }
 
+    // RESPINSIVENESS OF THE LOGIN AND SIGNUP PAGES
+    function changeClass() {
+        const authenticationBodys = document.querySelectorAll('.authenticationBody');
+        authenticationBodys.forEach(authenticationBody => {
+            authenticationBody.classList.remove('row_flex_container');
+            authenticationBody.classList.add('column_flex_container_center');
+        });
+        
+        const authContainerWrappers = document.querySelectorAll('.authContainerWrapper');
+        authContainerWrappers.forEach(authContainerWrapper => {
+            authContainerWrapper.classList.remove('authContainerWrapper', 'column_flex_container');
+            authContainerWrapper.classList.add('newAuthContainerWrapper', 'column_flex_container_center');
+        });
+
+
+        const newauthPageImgSizes = document.querySelectorAll('.authPageImg');
+        newauthPageImgSizes.forEach(newauthPageImgSize => {
+            newauthPageImgSize.classList.remove('authPageImgSize');
+            newauthPageImgSize.classList.add('newauthPageImgSize');
+        });
+    }
+
+    function revertClass() {
+        const authenticationBodys = document.querySelectorAll('.authenticationBody');
+        authenticationBodys.forEach(authenticationBody => {
+            authenticationBody.classList.remove('column_flex_container_center');
+            authenticationBody.classList.add('row_flex_container');
+        });
+    }
+
+    function checkScreenSize() {
+        if (window.matchMedia('(max-width: 700px)').matches) {
+            changeClass();
+        } else {
+            revertClass();
+        }
+    }
+    checkScreenSize(); // Check the screen size on initial load
+
+    window.addEventListener('resize', checkScreenSize); // Add an event listener for window resize 
+
+
     
     // MENU, AUTHORIZATION BUTTONS FUNCTIONALITY
     const menuIcon = document.getElementById('menuIcon');
@@ -125,7 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.id === 'backArrow') {
             const firstSignupPage = document.getElementById('firstSignupPage');
             const lastSignupPage = document.getElementById('lastSignupPage');
-
+            const formHeading = document.getElementById('createAccountHeading');
+            formHeading.innerHTML = `
+                Create an account from here
+            `;
             lastSignupPage.style.display = 'none';
             firstSignupPage.style.display = 'flex';
         }
