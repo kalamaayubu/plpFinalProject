@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
+const nodemailer = require('nodemailer'); // A module to send email(s) from the server
+const crypto = require('crypto'); // In build node module to generate a secure token
 const path = require('path');
 const { check, validationResult } = require('express-validator');
 const dotenv = require('dotenv'); // A module to load environment variables from a .env file
@@ -59,12 +61,20 @@ app.use(session({
 }));
 
 
+// Configuring the email transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'kalamaayubu913@gmail.com',
+        pass: '#03k@la$h'
+    }
+});
 
 
 // DEFINING ROUTES
 // Public routes
-app.get('/welcome', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'landing.html'));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
 });
 // Signup page route
 app.get('/signup', (req, res) => {
@@ -74,13 +84,20 @@ app.get('/signup', (req, res) => {
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
 });
+// Forgot password page
+app.get('/forgotPassword', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'forgotPass.html'));
+});
+// Reset password page
+app.get('/resetPassword', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'resetPass.html'));
+});
 // About page route
 app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'about.html'));
 });
-
 // Protected routes
-app.get('/', (req, res) => {
+app.get('/platform', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'wasteradict.html'));
 });
 app.get('/notifications', (req, res) => {
@@ -92,9 +109,6 @@ app.get('/profile', (req, res) => {
 app.get('/help', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'html', 'help.html'));
 });
-
-
-
 
 
 // OBJECT REPRESENTING USER-RELATED DATABASE OPERATIONS
@@ -192,6 +206,78 @@ app.post('/login', (req, res) => {
     });
 });
 
+// FORGOT PASSWORD ROUTE
+app.post('/forgotPassword', async (req, res) => {
+    const email = req.body.email;
+
+    connection.query('SELECT email FROM users WHERE email = ?', [email], (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: 'Query Error' });
+        }
+        if (result.length > 0) {
+            const token = crypto.randomBytes(20).toString('hex');
+            const expiration = Date.now() + 1800000; // Token exiring 30 minutes form now
+            
+            // Store token and expiration in the database
+            const updateQuery = 'UPDATE users SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE userId = ?';
+            connection.query(updateQuery, [token, expiration, email], (err, updateResult) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Error updating token in database' });
+                }
+
+                const recoveryLink = `http://localhost:3000/resetPassword=${token}`;
+                
+                const mailOptions = {
+                    from: 'kalamaayubu913@gmail.com',
+                    to: email,
+                    subject: 'Password Recovery',
+                    text: `Hello,
+                        You sent a password recovery request right?
+                        Follow the link to reset your password:  `
+                }; 
+
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        res.status(500).json({ message: 'Email sending failed'} );
+                    } else {
+                        res.json({ message: 'Password recovery link send to your email' });
+                    }
+                });
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    });
+});
+
+
+// PASSWORD RESET ROUTE
+app.post('/resetPassword', (req, res) => {
+    const { token, newPassword } = req.body;
+    const query = 'SELECT * FROM users WHERE resetPasswordToken = ? AND resetPasswordExpires > ?';
+
+    connection.query(query, [token, Date.now()], (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: 'Database query error' });
+        }
+        if (result.length > 0) {
+            const email = result[0].email;
+            const hashedPassword = crypto.createHash('sha256').update(newPassword).digest('hex'); // Hash the new password
+            const updatePasswordQuery = 'UPDATE users SET password = ?, resetPasswordToken = NULL, resetPasswordExpires = NULL WHERE userId = ?';
+
+            connection.query(updatePasswordQuery, [hashedPassword, email], (err, updatePasswordResult) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Error updating password in the database' });
+                } else {
+                    res.status(200).json({ message: 'Password has been reset successfully'});
+                }
+            });
+        } else {
+            res.status(404).json({ message: 'Invalid or Expired token' });
+        }
+    });
+});
+
 
 // LOGOUT ROUTE
 app.post('/logout', (req, res) => {
@@ -206,7 +292,8 @@ app.post('/logout', (req, res) => {
     });
 });
 
-// ROUTE OF THE USER INFORMATION
+
+// ROUTE TO FETCH THE USER INFORMATION
 app.get('/profile/userData', (req, res) => {
     const userId = req.session.userId;
 

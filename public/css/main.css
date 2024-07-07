@@ -235,6 +235,7 @@ width: 100vw;
     }
     #dropDownMenu{
         width: 200px;
+        display: block;
     }
     main{
         width: calc(100vw - 200px);

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WastEradict</title>
+    <link rel="shortcut icon" href="../images/appLogo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!--Poppins font-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  <!-- Link to Font Awesome CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<style>
+    body{
+        background-color: white;
+    }
+    .authPageImg{
+        background: no-repeat center center / cover url('../images/environCare10.jpg');
+    }
+    input{
+        width: 80%;
+        padding: 7px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid gray;
+        font-size: 1.19rem;
+    }
+    .authFormContainer{
+        height: 26%;
+        padding-bottom: 20px;
+    }
+    form{
+        margin-bottom: 10px;
+        position: relative;
+    }
+    form button{
+        width: 84%;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-color: var(--primary-color);
+        border: none;
+        outline: none;
+        padding: 7px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    form button:hover{
+        background-color: rgb(43, 143, 43);
+    }
+    #forgotPassHeading{
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        padding-top: 20px;
+    }
+    #forgotPassword{
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    #forgotPassword:hover{
+        text-decoration: underline;
+    }
+    /* The password toggle eye icon */
+    form .icon{
+        bottom: 53%;
+    }
+
+</style>
+<body class="row_flex_container authenticationBody">
+
+    <div class="authPageImg authPageImgSize">
+        <!-- <img src="../images/environCare.jpg" alt="environment care image"> -->
+    </div>
+
+    <div class="authContainerWrapper column_flex_container">
+        
+        <div class="logoContainer column_flex_container">
+            <img src="../images/appLogo.png" alt="Logo">
+            <p id="platformName">WastEradict</p>
+        </div>
+        <p id="forgotPassHeading">Forgot Password</p>
+        <br>
+
+        <div class="authFormContainer">
+            <p>Enter your details to reset password</p>
+            <form action="" id="forgotPassForm" class="column_flex_container">
+                <input type="email" name="username" id="username" placeholder="Enter your email" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    
+        <div class="accountExistence column_flex_container">
+            <p><a href="/login">Back to Login</a></p>
+        </div>
+
+    </div>
+    
+    <script src="../js/script.js"></script>
+</body>
+</html>

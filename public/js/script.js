@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('platformCloseIcon').style.color = 'white';
                 document.getElementById('userIcon').style.color = 'white';
                 dropDownMenu.style.backgroundColor = 'black';
-                document.querySelector('popup').style.color = 'black';
+                document.getElementById('userPopup').style.color = 'black';
             }
             if (e.target === lightMode) {
                 lightMode.style.display = 'none';
@@ -298,6 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('platformCloseIcon').style.color = 'black';
                 document.getElementById('userIcon').style.color = 'black';
                 dropDownMenu.style.backgroundColor = 'white';
+                document.getElementById('userPopup').style.color = 'black';
                 header.style.boxShadow = '1px 1px 8px 0.5px rgba(0, 0, 0, 0.2)';
 
             }
@@ -405,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     updatePopupMessage('Welcome', 'You have successfully logged in.');
                     document.getElementById('popupOkBtn').addEventListener('click', (e) => {
                         e.preventDefault();
-                        window.location.href = '/';
+                        window.location.href = '/platform';
                     });
                 } else {
                     alert('Login failed. Ensure to enter a valid name and the correct password');
@@ -414,6 +415,94 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('An error occured!', error);
             }
         }); // The end of the login functionality
+    }
+
+
+    // PASSWORD RECOVERY FUNCTIONALITY
+    const forgotPassForm = document.getElementById('forgotPassForm');
+    if (forgotPassForm) {
+        forgotPassForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const formData = new FormData(forgotPassForm);
+            const email = formData.get('email');
+
+            try {
+                const response = await fetch('/forgotPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({ email: email})
+                });
+                if (response.status == 404) {
+                    createPopup();
+                    updatePopupMessage('Sorry', 'The user email you entered does not exist')
+                }
+                if (response.ok) {
+                    const data = await response.json();
+                    createPopup();
+                    updatePopupMessage('Few steps remaining', 'Password recovery link sent to your email. Please check your inbox.');
+                    forgotPassForm.reset(); // Clear the form fields
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message);
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                createPopup();
+                updatePopupMessage('Sorry', 'Failed to recover password. Please try again later.');
+            }   
+        });
+    }
+    
+    // PASSWORD RESET FUNCTIONALITY
+    const resetPassForm = document.getElementById('resetPassForm');
+    if (resetPassForm) {
+        resetPassForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (newPassword !== confirmNewPassword) {
+                createPopup();
+                updatePopupMessage('Sorry', 'Password do not match! Please try again.');
+                return;
+            }
+
+            try {
+                const response = await fetch ('/resetPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({ token: token, newPassword: newPassword })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to reset password')
+                    // createPopup();
+                    // updatePopupMessage('Sorry', 'Password reset failed!');
+                }
+                const data = await response.json();
+
+                if(data.success) {
+                    createPopup();
+                    updatePopupMessage('Wonderful', 'You have successful reset your password. You can now login.')
+                    window.location.href = '/login'; // Redirect to login after successful password reset
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                createPopup();
+                updatePopupMessage('Sorry', 'An error occured while resetting your password');
+
+            }
+        });
     }
 
     
@@ -444,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ADD EVENT LISTENER TO PROFILE SPAN FOR NAVIGATION
-    const profileSpan = document.getElementById('userInfo');
+    const profileSpan = document.getElementById('accountInfo');
     if (profileSpan) {
         profileSpan.addEventListener('click', (e) => {
             e.preventDefault();
@@ -490,6 +579,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Check if the current page is the profile page and fetch user data
             if (window.location.pathname === '/profile') {
+                alert('On profile page, fetching user data');
                 fetchUserData();
             }  
         });
@@ -522,7 +612,7 @@ function onLocationFound(e) {
     // Create a marker at the user's location with a custom icon (orangeIcon)
     const userMarker = L.marker(e.latlng, {icon: orangeIcon})
         .addTo(map) // Add the marker to the map
-        .bindPopup("You are here") // Bind a popup to the marker with the message "You are here"
+        .bindPopup("You are currently here") // Bind a popup to the marker with the message "You are here"
         .openPopup(); // Open the popup immediately
 }
 
