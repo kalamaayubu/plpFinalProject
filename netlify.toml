@@ -6,3 +6,34 @@
   from = "/*"
   to = "/html/index.html"
   status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/html/login.html"
+  status = 200
+   
+[[redirects]]
+  from = "/signup"
+  to = "/html/signup.html"
+  status = 200
+   
+[[redirects]]
+  from = "/about"
+  to = "/html/about.html"
+  status = 200
+   
+[[redirects]]
+  from = "/help"
+  to = "/html/help.html"
+  status = 200
+   
+[[redirects]]
+  from = "/platform"
+  to = "/html/wasteradict.html"
+  status = 200
+   
+[[redirects]]
+  from = "/notifaications"
+  to = "/html/notifaications.html"
+  status = 200
+   
