@@ -3,7 +3,7 @@
   command = "npm run build"  # Your build command, if you have one. If not, you can leave this out.
 
 [[redirects]]
-  from = "/*"
+  from = "/"
   to = "/html/index.html"
   status = 200
 
