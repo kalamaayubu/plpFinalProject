@@ -283,6 +283,9 @@ footer{
     #auth-buttons-top button {
         padding: 5px;
     }
+    .callToAction1 p {
+        font-size: 20px;
+    }
 }
 /* RESPONSIVE STYLES OF THE AUTHENTICATION PAGES (LOGIN AND SIGNUP PAGES) */
 
