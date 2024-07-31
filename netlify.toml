@@ -31,9 +31,24 @@
   from = "/platform"
   to = "/html/wasteradict.html"
   status = 200
+
+[[redirects]]
+  from = "/profile"
+  to = "/html/profile.html"
+  status = 200
    
 [[redirects]]
   from = "/notifaications"
   to = "/html/notifaications.html"
+  status = 200
+
+[[redirects]]
+  from = "/forgotPassword"
+  to = "/html/forgotPass.html"
+  status = 200
+
+[[redirects]]
+  from = "/resetPassword"
+  to = "/html/resetPass.html"
   status = 200
    
